@@ -1,0 +1,24 @@
+.modalContainer {
+    .modalFooter {
+        justify-content: center;
+        .submitBtn {
+            width: 240px  !important;
+        }
+    }
+}
+
+.formContainer {
+    width: 240px;
+    margin-left: auto;
+    margin-right: auto;
+    .formInputContainer {
+        margin-bottom: 15px;
+
+        p {
+            margin-bottom: 5px;
+        }
+        .formInput {
+            width: 240px;
+        }
+    }
+}

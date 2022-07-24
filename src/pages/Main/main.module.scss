@@ -1,0 +1,85 @@
+.title {
+    font-weight: bold;
+    font-size: 25px
+}
+
+.parked {
+    background-color: green;
+}
+
+.outerTopBot {
+    margin: 50px auto;
+}
+
+.hide {
+    height: 25px;
+}
+
+.outerContainer {
+    display: inline-flex;
+    .outerSide {
+        margin: auto 50px;
+    }
+
+    .boxContainer {
+        width: 610px;
+        padding-bottom: 70px;
+        padding-top: 70px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid #000;
+    
+        .parkingHorizontalContainer {
+            display: flex;
+            width: 200px;
+            height: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #000;
+            .col {
+                button {
+                    font-size: 9px;
+                }
+                p {
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                }
+                width: 33.337%;
+                border: 1px solid #000;
+            }
+        }
+    
+        .parkingVerticalContainer {
+            display: flex;
+            width: 402px;
+            height: 185px;
+            margin-left: auto;
+            margin-right: auto;
+    
+            .parkingRowContainer {
+                width: 250px;
+                margin-left: auto;
+                margin-right: auto;
+                border: 1px solid #000;
+                .row {
+                    height: 33.337%;
+                    border: 1px solid #000;
+                    .descContainer {
+                        display: flex;
+                        p {
+                            font-weight: bold;
+                            margin: 0 5px 0;
+                        }
+                    }
+                    button {
+                        font-size: 9px;
+                    }
+                }
+            }
+    
+            .centerSquare {
+                width: 500px;
+            }
+        }
+    }
+}
