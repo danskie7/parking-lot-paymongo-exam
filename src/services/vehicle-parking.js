@@ -1,6 +1,6 @@
 import ParkingSpot from "./parking-spot";
 
-class SmallVechicle extends ParkingSpot {
+class VehicleParking extends ParkingSpot {
     constructor (entryPoint, slots, occupiedSlot) {
         super(entryPoint, slots, occupiedSlot)
         this.parkedVehicles = []
@@ -12,20 +12,27 @@ class SmallVechicle extends ParkingSpot {
         
         for (let i = 0; i <= 3; i++) {
             const slot = this.slots[i];
-            let smallVehicleRecord = occupied.filter(e => e.entryPoint === this.entryPoint)
+            let currentVehicleEntry = occupied.filter(e => e.entryPoint === this.entryPoint)
             let smallVehicleEntries = occupied.filter(e => e.vehicleSize === 0)
             let mediumVehicleEntries = occupied.filter(e => e.vehicleSize === 1)
 
             let currentVehicleSize = vehicleSize
             let occuppiedIndex = i
             let checkOccupiedSlot = false
-
-            if (smallVehicleEntries.length === 4 && mediumVehicleEntries.length !== 4) {
-                currentVehicleSize = currentVehicleSize + 1
-                occuppiedIndex = occuppiedIndex + 4
-            } else if (smallVehicleEntries.length === 4 && mediumVehicleEntries.length <= 4) {
-                currentVehicleSize = currentVehicleSize + 2
-                occuppiedIndex = occuppiedIndex + 8
+            
+            if (vehicleSize === 0) {
+                if (smallVehicleEntries.length === 4 && mediumVehicleEntries.length !== 4) { // To Medium Parking
+                    currentVehicleSize = currentVehicleSize + 1
+                    occuppiedIndex = occuppiedIndex + 4
+                } else if (smallVehicleEntries.length === 4 && mediumVehicleEntries.length <= 4) { // To Large Parking
+                    currentVehicleSize = currentVehicleSize + 2
+                    occuppiedIndex = occuppiedIndex + 8
+                }
+            } else if (vehicleSize === 1) {
+                if (mediumVehicleEntries.length && mediumVehicleEntries.length === 4) { // To Large Parking
+                    currentVehicleSize = currentVehicleSize + 1
+                    occuppiedIndex = occuppiedIndex + 4
+                }
             }
 
             if (occupied.length && slot[currentVehicleSize]) {
@@ -33,8 +40,9 @@ class SmallVechicle extends ParkingSpot {
             }
 
             if (
-                slot.some(e => e.slotSize === currentVehicleSize) && // Check for slot size if existing
-                (occupied.length === 0 || (!smallVehicleRecord[occuppiedIndex] || smallVehicleRecord[occuppiedIndex].slotNum !== slot[currentVehicleSize].slotNum)) // Check if current slotNum if available/unavailable (Only on current entry point in occupied data)
+                occupied.length === 0 ||
+                (!currentVehicleEntry[occuppiedIndex] ||
+                    currentVehicleEntry[occuppiedIndex].slotNum !== slot[currentVehicleSize].slotNum)
             ) {
                 if (!checkOccupiedSlot) {
                     newData = {
@@ -58,4 +66,4 @@ class SmallVechicle extends ParkingSpot {
     }
 }
 
-export default SmallVechicle;
+export default VehicleParking;

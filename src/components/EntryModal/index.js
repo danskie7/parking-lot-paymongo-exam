@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal, Button } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
 
-import SmallVechicle from "../../services/small-vehicle";
+import VehicleParking from "../../services/vehicle-parking";
 
 import styles from "./styles.module.scss";
 
@@ -13,14 +13,12 @@ function EntryModal(props) {
         plateNumber: ''
     });
 
-    let smallVehicle = new SmallVechicle(props.entryPoint, props.slots, props.occupiedSlot)
-
-    const [value, onChange] = useState(new Date());
+    let smallVehicle = new VehicleParking(props.entryPoint, props.slots, props.occupiedSlot)
 
     const handleInput = (event, name) => {
         setState({
             ...state,
-            [name]: event.target.value,
+            [name]: name === 'vehicleSize' ? parseInt(event.target.value) : event.target.value,
         })
     }
 
