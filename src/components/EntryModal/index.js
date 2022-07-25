@@ -3,7 +3,6 @@ import { Modal, Button } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
 
 import SmallVechicle from "../../services/small-vehicle";
-import ParkingSpot from "../../services/parking-spot";
 
 import styles from "./styles.module.scss";
 
@@ -32,7 +31,7 @@ function EntryModal(props) {
         })
     }
 
-    const handlePark = (data) => {
+    const handlePark = (data, entryPoint) => {
         props.setOccupiedSlot(smallVehicle.park(data.vehicleSize, data.entryTime, data.plateNumber))
         setState({
             vehicleSize: 0,
@@ -76,7 +75,7 @@ function EntryModal(props) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer className={styles.modalFooter}>
-                    <Button onClick={() => handlePark(state)} variant="primary" className={styles.submitBtn}>Park</Button>
+                    <Button onClick={() => handlePark(state, props.entryPoint)} variant="primary" className={styles.submitBtn}>Park</Button>
                 </Modal.Footer>
             </div>
         </Modal>

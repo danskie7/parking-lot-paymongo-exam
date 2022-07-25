@@ -4,10 +4,6 @@ class ParkingSpot {
         this.slots = slots
         this.occupiedSlot = occupiedSlot
     }
-
-    getParkedVehicles() {
-        return this.occupiedSlot;
-    }
 }
 
 export default ParkingSpot;
