@@ -3,6 +3,9 @@ import { Modal, Button } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
 
 import ParkingFee from "../../services/parking-fee";
+import SmallParking from "../../services/small-parking";
+import MediumParking from "../../services/medium-parking";
+import LargeParking from "../../services/large-parking";
 
 import styles from "./styles.module.scss";
 
@@ -11,10 +14,16 @@ function UnparkModal(props) {
         exitTime: new Date(),
     });
 
-    const [parkingFee, setParkingFee] = useState()
+    const [smallParking, setSmallParking] = useState()
+    const [mediumParking, setMediumParking] = useState()
+    const [largeParking, setLargeParking] = useState()
+
+    const currentVehicleInfo = props.occupiedSlot.filter(e => e.slotNum === props.parkId)
 
     useEffect(() => {
-        setParkingFee(new ParkingFee(props.parkId, state.exitTime, props.occupiedSlot));
+        setSmallParking(new SmallParking(props.parkId, state.exitTime, props.occupiedSlot));
+        setMediumParking(new MediumParking(props.parkId, state.exitTime, props.occupiedSlot));
+        setLargeParking(new LargeParking(props.parkId, state.exitTime, props.occupiedSlot));
     }, [state.exitTime]);
 
     const handleDateTime = (e) => {
@@ -24,8 +33,14 @@ function UnparkModal(props) {
         })
     }
 
-    const handleCalculateFee = (parkId, exitTime) => {
-        parkingFee.calculateFee(parkId, exitTime)
+    const handleCalculateFee = (parkingSize) => {
+        if (parkingSize === 0) {
+            smallParking.calculateFee()
+        } else if (parkingSize === 1) {
+            mediumParking.calculateFee()
+        } else if (parkingSize === 2) {
+            largeParking.calculateFee()
+        }
         props.setShowFeeDetails(true)
     }
 
@@ -48,6 +63,19 @@ function UnparkModal(props) {
         props.handleClose()
     }
 
+    let parkingSize = "Small Parking"
+    let totalFee = smallParking && smallParking.getFee()
+    let totalDurationParked = smallParking && smallParking.getTimeDuration()
+    if (currentVehicleInfo.length && currentVehicleInfo[0].parkingSize === 1) {
+        parkingSize = "Medium Parking"
+        totalFee = mediumParking.getFee()
+        totalDurationParked = mediumParking.getTimeDuration()
+    } else if (currentVehicleInfo.length && currentVehicleInfo[0].parkingSize === 2) {
+        parkingSize = "Large Parking"
+        totalFee = largeParking.getFee()
+        totalDurationParked = largeParking.getTimeDuration()
+    }
+
     return (
         <Modal show={props.show} onHide={handleClose}>
             <div className={styles.modalContainer}>
@@ -57,7 +85,11 @@ function UnparkModal(props) {
                 <Modal.Body>
                     {props.showFeeDetails ? (
                         <div className={styles.formContainer}>
-                            <h1>P{parkingFee.getFee()}</h1>
+                            <p><b>Slot Number:</b> {currentVehicleInfo[0].slotNum}</p>
+                            <p><b>Parking:</b> {parkingSize}</p>
+                            <p><b>Plate Number:</b> {currentVehicleInfo[0].plateNumber}</p>
+                            <p><b>Time Duration:</b> {totalDurationParked} hours</p>
+                            <h1>P{totalFee}</h1>
                         </div>
                     ) : (
                         <div className={styles.formContainer}>
@@ -72,7 +104,7 @@ function UnparkModal(props) {
                     {props.showFeeDetails ? (
                         <Button onClick={() => handleUnpark(props.parkId)} variant="primary" className={styles.submitBtn}>Unpark</Button>
                     ) : (
-                        <Button onClick={() => handleCalculateFee(props.parkId, state.exitTime)} variant="primary" className={styles.submitBtn}>Calculate Fee</Button>
+                        <Button onClick={() => handleCalculateFee(currentVehicleInfo[0].parkingSize)} variant="primary" className={styles.submitBtn}>Calculate Fee</Button>
                     )}
                 </Modal.Footer>
             </div>

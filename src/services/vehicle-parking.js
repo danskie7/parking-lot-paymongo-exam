@@ -35,7 +35,7 @@ class VehicleParking extends ParkingSpot {
                 }
             }
 
-            if (occupied.length && slot[currentVehicleSize]) {
+            if (occupied.length && slot[currentVehicleSize]) { // Check for the availability of occupied slot either SP, MP or LP
                 checkOccupiedSlot = occupied.some(e => e.slotNum === slot[currentVehicleSize].slotNum)
             }
 
