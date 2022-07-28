@@ -13,6 +13,7 @@ export const Main = () => {
     const [showFeeDetails, setShowFeeDetails] = useState(false);
     const [parkId, setParkId] = useState('');
     const [occupiedSlot, setOccupiedSlot] = useState([]);
+    const [prevParkedVehicle, setPrevParkedVehicle] = useState([]);
 
     const handleClose = () => setShowEntryModal(false);
     const handleShow = () => setShowEntryModal(true);
@@ -50,8 +51,9 @@ export const Main = () => {
         setParkingSpot(new ParkingSpot(entryPoint, slots, occupiedSlot));
     }, [entryPoint]);
 
-    // console.log('slots', slots)
-    console.log('parkingSpot', parkingSpot)
+    console.log('occupiedSlot', occupiedSlot)
+    console.log('prevParkedVehicle', prevParkedVehicle)
+    console.log('test ', 24/24)
     return (
         <>
             <EntryModal
@@ -60,7 +62,9 @@ export const Main = () => {
                 entryPoint={entryPoint}
                 slots={slots} 
                 setOccupiedSlot={setOccupiedSlot}
-                occupiedSlot={occupiedSlot} />
+                occupiedSlot={occupiedSlot}
+                prevParkedVehicle={prevParkedVehicle}
+                setPrevParkedVehicle={setPrevParkedVehicle} />
 
             <UnparkModal
                 show={showUnparkModal}
@@ -70,7 +74,9 @@ export const Main = () => {
                 setShowFeeDetails={setShowFeeDetails}
                 showFeeDetails={showFeeDetails}
                 occupiedSlot={occupiedSlot}
-                setOccupiedSlot={setOccupiedSlot} />
+                setOccupiedSlot={setOccupiedSlot}
+                prevParkedVehicle={prevParkedVehicle}
+                setPrevParkedVehicle={setPrevParkedVehicle} />
 
             <p className={styles.title}>PARKING LOT SYSTEM</p>
             <div className={styles.outerTopBot}>

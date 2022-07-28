@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import ParkingSpot from "./parking-spot";
 
 class VehicleParking extends ParkingSpot {
@@ -6,9 +8,37 @@ class VehicleParking extends ParkingSpot {
         this.parkedVehicles = []
     }
 
-    park(vehicleSize, entryTime, plateNumber) {
+    conRatetimeCalculator(exitTime, entryTime) {
+        const then = moment(exitTime).format("DD/MM/YYYY HH:mm:ss");
+        const now = moment(entryTime).format("DD/MM/YYYY HH:mm:ss");
+
+        const ms = moment(now, "DD/MM/YYYY HH:mm:ss").diff(moment(then, "DD/MM/YYYY HH:mm:ss"));
+        const d = moment.duration(ms);
+        const time = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+        const array = time.split(":");
+
+        // const timeFloatInt = parseFloat(`${array[0]}.${array[1]}`)
+        let roundedTime = array[1];
+        if (array[0] >= 1) {
+            roundedTime = (60 * array[0]) + array[1]
+        }
+        
+        return parseInt(roundedTime)
+    }
+
+    park(vehicleSize, entryTime, plateNumber, prevParkedVehicle) {
         let newData
         const occupied = this.occupiedSlot;
+
+        const prevVehicleData = prevParkedVehicle.filter(e => e.plateNumber === plateNumber)
+        let conRate = false
+        let conRateTime = prevVehicleData.length > 0 ? this.conRatetimeCalculator(prevVehicleData[0].exitTime, entryTime) : 0
+
+        if (prevParkedVehicle.length > 0 && conRateTime <= 60) {
+            console.log('YPYPYPPPPOOOW', this.conRatetimeCalculator(prevVehicleData[0].exitTime, entryTime))
+            conRate = true
+        }
+        
         
         for (let i = 0; i <= 3; i++) {
             const slot = this.slots[i];
@@ -51,7 +81,9 @@ class VehicleParking extends ParkingSpot {
                         slotNum: slot[currentVehicleSize].slotNum,
                         entryTime: entryTime,
                         plateNumber: plateNumber,
-                        entryPoint: this.entryPoint
+                        entryPoint: this.entryPoint,
+                        prevExitTime: conRate ? prevVehicleData[0].exitTime : '',
+                        overallDurationParked: conRate ? prevVehicleData[0].overallDurationParked : ''
                     }
                     break;
                 }

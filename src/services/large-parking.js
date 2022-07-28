@@ -1,10 +1,10 @@
 import ParkingFee from "./parking-fee";
 
 class LargeParking extends ParkingFee {
-    calculateFee() {
+    calculateFee(currentVehicleInfo) {
         const vehicleRate = 100
         
-        super.calculateParkRate(vehicleRate)
+        super.calculateParkRate(vehicleRate, currentVehicleInfo)
     }
 }
 

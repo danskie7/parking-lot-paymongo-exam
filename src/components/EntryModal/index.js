@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Button } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
 
@@ -13,7 +13,22 @@ function EntryModal(props) {
         plateNumber: ''
     });
 
-    let smallVehicle = new VehicleParking(props.entryPoint, props.slots, props.occupiedSlot)
+    useEffect(() => {
+        if (state.plateNumber) {
+            console.log('state.plateNumber', state.plateNumber)
+            console.log('props.prevParkedVehicle', props.prevParkedVehicle)
+            const prevExitTime = props.prevParkedVehicle.filter(e => e.plateNumber === state.plateNumber)
+            console.log('prevExitTime[0]', prevExitTime)
+            if (prevExitTime) {
+                setState({
+                    ...state,
+                    entryTime: prevExitTime.length > 0 ? prevExitTime[0].exitTime : new Date()
+                })
+            }
+        }
+    }, [state.plateNumber])
+
+    let vehicleParking = new VehicleParking(props.entryPoint, props.slots, props.occupiedSlot)
 
     const handleInput = (event, name) => {
         setState({
@@ -29,8 +44,19 @@ function EntryModal(props) {
         })
     }
 
-    const handlePark = (data, entryPoint) => {
-        props.setOccupiedSlot(smallVehicle.park(data.vehicleSize, data.entryTime, data.plateNumber))
+    const handlePark = (data, prevParkedVehicle) => {
+        props.setOccupiedSlot(vehicleParking.park(data.vehicleSize, data.entryTime, data.plateNumber, prevParkedVehicle))
+
+        const prevParkedVehicleIds = prevParkedVehicle.map(e => e.plateNumber)
+        const updatedPrevParked = [...prevParkedVehicle];
+        const arrayIndex = [...prevParkedVehicleIds];
+        const index = arrayIndex.indexOf(data.plateNumber)
+
+        if (index !== -1) {
+            updatedPrevParked.splice(index, 1);
+            props.setPrevParkedVehicle([...updatedPrevParked])
+        }
+
         setState({
             vehicleSize: 0,
             entryTime: new Date(),
@@ -73,7 +99,7 @@ function EntryModal(props) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer className={styles.modalFooter}>
-                    <Button onClick={() => handlePark(state, props.entryPoint)} variant="primary" className={styles.submitBtn}>Park</Button>
+                    <Button onClick={() => handlePark(state, props.prevParkedVehicle)} variant="primary" className={styles.submitBtn}>Park</Button>
                 </Modal.Footer>
             </div>
         </Modal>
