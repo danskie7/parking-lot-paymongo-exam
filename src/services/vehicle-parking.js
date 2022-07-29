@@ -35,7 +35,6 @@ class VehicleParking extends ParkingSpot {
         let conRateTime = prevVehicleData.length > 0 ? this.conRatetimeCalculator(prevVehicleData[0].exitTime, entryTime) : 0
 
         if (prevParkedVehicle.length > 0 && conRateTime <= 60) {
-            console.log('YPYPYPPPPOOOW', this.conRatetimeCalculator(prevVehicleData[0].exitTime, entryTime))
             conRate = true
         }
         

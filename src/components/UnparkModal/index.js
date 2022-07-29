@@ -91,7 +91,7 @@ function UnparkModal(props) {
         totalFee = largeParking.getFee()
         totalDurationParked = largeParking.getTimeDuration()
     }
-    console.log('currentVehicleInfo11', currentVehicleInfo)
+
     return (
         <Modal show={props.show} onHide={handleClose}>
             <div className={styles.modalContainer}>

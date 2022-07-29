@@ -2,10 +2,7 @@
     font-weight: bold;
     font-size: 25px;
     margin-top: 10px;
-}
-
-.parked {
-    background-color: green;
+    margin-left: 40px;
 }
 
 .outerTopBot {
@@ -33,6 +30,38 @@
     }
 }
 
+.entryBox {
+    width: 220px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+
+    background: repeating-linear-gradient(
+        45deg,
+        #f7f780,
+        #f7f780 10px,
+        #575757 10px,
+        #575757 20px
+    );
+}
+
+.verticalEntryBox {
+    width: 50px;
+    height: 192px;
+    margin-top: auto;
+    margin-bottom: auto;
+    position: relative;
+
+    background: repeating-linear-gradient(
+        45deg,
+        #f7f780,
+        #f7f780 10px,
+        #575757 10px,
+        #575757 20px
+    );
+}
+
 .outerContainer {
     display: inline-flex;
     .outerSide {
@@ -46,6 +75,7 @@
         margin-left: auto;
         margin-right: auto;
         border: 2px solid #000;
+        border-radius: 10px;
     
         .parkingHorizontalContainer {
             display: flex;

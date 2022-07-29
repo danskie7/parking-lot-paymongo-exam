@@ -113,6 +113,12 @@ export const Main = () => {
                     <button className={styles.entryBtn} disabled={!showEntryD} onClick={() => handleEntry(3)}>ENTRY POINT D</button>
                 </div>
                 <div className={styles.boxContainer}>
+                    {showEntryA ? (
+                        <div className={styles.entryBox} style={{top: '-82px'}} />
+                    ) : (
+                        <div style={{ height: '20px' }} />
+                    )}
+
                     <div className={styles.parkingHorizontalContainer}>
                         {[...Array(3)].map((_, index) => (
                             <div key={index} className={styles.col} style={occupiedSlot.some(e => e.slotNum === index + 1) ? { backgroundColor: 'green' } : {}}>
@@ -124,6 +130,10 @@ export const Main = () => {
                     </div>
 
                     <div className={styles.parkingVerticalContainer}>
+                        {showEntryD ? (
+                            <div className={styles.verticalEntryBox} style={{ left: '-114px', top: '-5px', marginRight: '-20px' }} />
+                        ) : null}
+                        
                         <div className={styles.parkingRowContainer}>
                             {[...Array(3)].map((_, index) => (
                                 <div key={index} className={styles.row} style={occupiedSlot.some(e => e.slotNum === index + 10) ? { backgroundColor: 'green' } : {}}>
@@ -147,6 +157,9 @@ export const Main = () => {
                                 </div>
                             ))}
                         </div>
+                        {showEntryB ? (
+                            <div className={styles.verticalEntryBox} style={{ right: '-93px', top: '-5px', marginRight: '-20px' }} />
+                        ) : null}
                     </div>
 
                     <div className={styles.parkingHorizontalContainer}>
@@ -158,6 +171,12 @@ export const Main = () => {
                             </div>
                         ))}
                     </div>
+                    {showEntryC ? (
+                        <div className={styles.entryBox} style={{bottom: '-81px'}} />
+                    ) : (
+                        <div style={{ height: '20px' }} />
+                    )}
+                    
                 </div>
                 <div className={styles.outerSide}>
                     <button className={styles.entryBtn} disabled={!showEntryB} onClick={() => handleEntry(1)}>ENTRY POINT B</button>
