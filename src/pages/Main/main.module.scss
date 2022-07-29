@@ -1,6 +1,7 @@
 .title {
     font-weight: bold;
-    font-size: 25px
+    font-size: 25px;
+    margin-top: 10px;
 }
 
 .parked {
@@ -13,6 +14,23 @@
 
 .hide {
     height: 25px;
+}
+
+.entryBtn {
+    border-radius: 20px;
+    padding: 5px 15px;
+    background-color: lightskyblue;
+}
+
+.btnSetting {
+    border: none;
+    background-color: #fff;
+    position: absolute;
+    top: 5px;
+    right: 0;
+    img {
+        width: 40px;
+    }
 }
 
 .outerContainer {

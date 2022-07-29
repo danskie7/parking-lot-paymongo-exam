@@ -63,16 +63,15 @@ class ParkingFee {
         if (remainder > timeParked) {
             days = remainder - timeParked
         }
-        console.log('remainder', remainder)
+
         if ((days % 24) > 0) {
-            console.log('here', timeParked % 24)
             if ((timeParked % 24) === 0) {
                 days = timeParked
             } else {
                 days = timeParked - (timeParked % 24)
             }
         }
-        console.log('daysaaaa', days)
+
         const dayCount = days/24
 
         this.fee = (remainder * vehicleRate) + (dayCount * 5000)
@@ -80,22 +79,19 @@ class ParkingFee {
 
     calculateParkRate(vehicleRate, currentVehicleInfo) {
         const timeParked = this.timeCalculator(this.id, this.exitTime)
-        console.log('timeParked', timeParked)
         this.timeDuration = timeParked
 
         if (currentVehicleInfo.prevExitTime) { // Check if con rate
             const totalConHour = timeParked + currentVehicleInfo.overallDurationParked
-            console.log('totalConHour', totalConHour)
+
             if (totalConHour <= 3) {
                 this.fee = 40
             } else if (totalConHour === 24) {
                 this.fee = 5000 
             } else {
-                console.log('ELSESEEE')
                 if (totalConHour < 24) {
                     this.fee = (timeParked * vehicleRate)
                 } else {
-                    console.log('ELSSEE!11', totalConHour % 24)
                     if (totalConHour % 24 === 0) {
                         const dayCount = timeParked/24
 
@@ -105,7 +101,6 @@ class ParkingFee {
                             if (timeParked < 24) {
                                 this.fee = timeParked * vehicleRate
                             } else {
-                                console.log('ellsssee!222')
                                 // Get con rate per 24 hours
                                 this.getConRatePerDay(timeParked, vehicleRate, totalConHour)
                             }
@@ -114,7 +109,6 @@ class ParkingFee {
                         if (timeParked < 24) {
                             this.fee = timeParked * vehicleRate
                         } else {
-                            console.log('ellsssee!222')
                             // Get con rate per 24 hours
                             this.getConRatePerDay(timeParked, vehicleRate, totalConHour)
                         }

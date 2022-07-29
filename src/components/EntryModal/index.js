@@ -15,10 +15,8 @@ function EntryModal(props) {
 
     useEffect(() => {
         if (state.plateNumber) {
-            console.log('state.plateNumber', state.plateNumber)
-            console.log('props.prevParkedVehicle', props.prevParkedVehicle)
             const prevExitTime = props.prevParkedVehicle.filter(e => e.plateNumber === state.plateNumber)
-            console.log('prevExitTime[0]', prevExitTime)
+
             if (prevExitTime) {
                 setState({
                     ...state,
@@ -70,6 +68,8 @@ function EntryModal(props) {
         entryName = 'B'
     } else if (props.entryPoint === 2) {
         entryName = 'C'
+    } else if (props.entryPoint === 3) {
+        entryName = 'D'
     }
 
     return (

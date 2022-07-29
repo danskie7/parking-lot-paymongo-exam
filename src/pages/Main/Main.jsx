@@ -4,16 +4,25 @@ import ParkingSpot from "../../services/parking-spot";
 
 import EntryModal from "../../components/EntryModal";
 import UnparkModal from "../../components/UnparkModal";
+import SettingsModal from "../../components/SettingsModal";
+
+import settingImg from '../../images/settings.png'
 
 export const Main = () => {
     const [parkingSpot, setParkingSpot] = useState(null);
     const [entryPoint, setEntryPoint] = useState('')
     const [showEntryModal, setShowEntryModal] = useState(false);
     const [showUnparkModal, setShowUnparkModal] = useState(false);
+    const [showSettingsModal, setShowSettingsModal] = useState(false);
     const [showFeeDetails, setShowFeeDetails] = useState(false);
     const [parkId, setParkId] = useState('');
     const [occupiedSlot, setOccupiedSlot] = useState([]);
     const [prevParkedVehicle, setPrevParkedVehicle] = useState([]);
+
+    const [showEntryA, setShowEntryA] = useState(true);
+    const [showEntryB, setShowEntryB] = useState(true);
+    const [showEntryC, setShowEntryC] = useState(true);
+    const [showEntryD, setShowEntryD] = useState(false);
 
     const handleClose = () => setShowEntryModal(false);
     const handleShow = () => setShowEntryModal(true);
@@ -30,6 +39,8 @@ export const Main = () => {
         slots = [entryB, entryC, entryA, entryD]
     } else if (entryPoint === 2) {
         slots = [entryC, entryD, entryB, entryA]
+    } else if (entryPoint === 3) {
+        slots = [entryD, entryA, entryC, entryB]
     }
 
     const handleEntry = (entryPoint) => {
@@ -53,9 +64,21 @@ export const Main = () => {
 
     console.log('occupiedSlot', occupiedSlot)
     console.log('prevParkedVehicle', prevParkedVehicle)
-    console.log('test ', 24/24)
+
     return (
         <>
+            <SettingsModal 
+                handleClose={() => setShowSettingsModal(false)}
+                show={showSettingsModal}
+                showEntryA={showEntryA}
+                setShowEntryA={setShowEntryA}
+                showEntryB={showEntryB}
+                setShowEntryB={setShowEntryB}
+                showEntryC={showEntryC}
+                setShowEntryC={setShowEntryC}
+                showEntryD={showEntryD}
+                setShowEntryD={setShowEntryD} />
+
             <EntryModal
                 show={showEntryModal}
                 handleClose={handleCloseEntry}
@@ -79,12 +102,15 @@ export const Main = () => {
                 setPrevParkedVehicle={setPrevParkedVehicle} />
 
             <p className={styles.title}>PARKING LOT SYSTEM</p>
+            <button className={styles.btnSetting} onClick={() => setShowSettingsModal(true)}>
+                <img src={settingImg} alt="my image" />
+            </button>
             <div className={styles.outerTopBot}>
-                <button onClick={() => handleEntry(0)}>ENTRY POINT A</button>
+                <button className={styles.entryBtn} disabled={!showEntryA} onClick={() => handleEntry(0)}>ENTRY POINT A</button>
             </div>
             <div className={styles.outerContainer}>
                 <div className={styles.outerSide}>
-                    <button>ENTRY POINT</button>
+                    <button className={styles.entryBtn} disabled={!showEntryD} onClick={() => handleEntry(3)}>ENTRY POINT D</button>
                 </div>
                 <div className={styles.boxContainer}>
                     <div className={styles.parkingHorizontalContainer}>
@@ -134,11 +160,11 @@ export const Main = () => {
                     </div>
                 </div>
                 <div className={styles.outerSide}>
-                    <button onClick={() => handleEntry(1)}>ENTRY POINT B</button>
+                    <button className={styles.entryBtn} disabled={!showEntryB} onClick={() => handleEntry(1)}>ENTRY POINT B</button>
                 </div>
             </div>
             <div className={styles.outerTopBot}>
-                <button onClick={() => handleEntry(2)}>ENTRY POINT C</button>
+                <button className={styles.entryBtn} disabled={!showEntryC} onClick={() => handleEntry(2)}>ENTRY POINT C</button>
             </div>
         </>
     )
